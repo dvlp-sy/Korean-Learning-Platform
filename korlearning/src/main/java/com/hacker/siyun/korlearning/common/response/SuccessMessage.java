@@ -22,6 +22,7 @@ public enum SuccessMessage
      * Video
      */
     UPLOAD_VIDEO_SUCCESS(OK, "비디오 업로드에 성공했습니다"),
+    GET_ALL_VIDEOS_SUCCESS(OK, "전체 비디오 조회에 성공했습니다"),
 
     /**
      * Transcript
