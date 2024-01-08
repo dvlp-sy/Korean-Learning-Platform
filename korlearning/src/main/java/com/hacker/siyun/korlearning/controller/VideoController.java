@@ -2,6 +2,7 @@ package com.hacker.siyun.korlearning.controller;
 
 import com.hacker.siyun.korlearning.common.ApiResponse;
 import com.hacker.siyun.korlearning.dto.UserRequestDTO;
+import com.hacker.siyun.korlearning.dto.VideoDTO;
 import com.hacker.siyun.korlearning.dto.VideoSummaryDTO;
 import com.hacker.siyun.korlearning.service.VideoService;
 import org.springframework.web.bind.annotation.*;
@@ -25,5 +26,11 @@ public class VideoController
     public ApiResponse<List<VideoSummaryDTO>> getAllVideos()
     {
         return videoService.getAllVideos();
+    }
+
+    @GetMapping("/videos/{videoId}")
+    public ApiResponse<VideoDTO> getVideoByVideoId(@PathVariable("videoId") Long videoId)
+    {
+        return videoService.getVideoByVideoId(videoId);
     }
 }

@@ -5,6 +5,7 @@ import com.hacker.siyun.korlearning.common.exception.NotFoundException;
 import com.hacker.siyun.korlearning.common.response.ErrorMessage;
 import com.hacker.siyun.korlearning.common.response.SuccessMessage;
 import com.hacker.siyun.korlearning.dto.UserRequestDTO;
+import com.hacker.siyun.korlearning.dto.VideoDTO;
 import com.hacker.siyun.korlearning.dto.VideoSummaryDTO;
 import com.hacker.siyun.korlearning.model.*;
 import com.hacker.siyun.korlearning.repository.*;
@@ -76,7 +77,7 @@ public class VideoService
         Video video = Video.builder()
                 .link(link)
                 .views(0L)
-                .isDefault(Boolean.TRUE)
+                .isDefault(false)
                 .createdAt(new Date())
                 .build();
 
@@ -173,6 +174,13 @@ public class VideoService
                 .map(VideoSummaryDTO::build)
                 .toList();
         return ApiResponse.success(SuccessMessage.GET_ALL_VIDEOS_SUCCESS, videoSummaryDTOList);
+    }
+
+    public ApiResponse<VideoDTO> getVideoByVideoId(Long videoId)
+    {
+        Video video = videoRepository.findById(videoId)
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.VIDEO_NOT_FOUND));
+        return ApiResponse.success(SuccessMessage.GET_VIDEO_SUCCESS, VideoDTO.build(video));
     }
 
 }
