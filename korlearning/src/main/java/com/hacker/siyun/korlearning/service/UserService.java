@@ -19,8 +19,7 @@ public class UserService
 
     public UserService(UserRepository userRepository) { this.userRepository = userRepository; }
 
-    public ApiResponse<List<UsersDTO>> getAllUsers()
-    {
+    public ApiResponse<List<UsersDTO>> getAllUsers() {
         List<UsersDTO> usersDTOList = userRepository.findAll().stream()
                 .map(UsersDTO::build)
                 .toList();
@@ -32,7 +31,7 @@ public class UserService
     public ApiResponse<UserDTO> getUserByUserId(Long userId)
     {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException(ErrorMessage.USER_NOT_FOUND));
+                .orElseThrow(()->new NotFoundException(ErrorMessage.USER_NOT_FOUND));
 
         return ApiResponse.success(SuccessMessage.GET_INDIVIDUAL_USER_SUCCESS, UserDTO.build(user));
     }

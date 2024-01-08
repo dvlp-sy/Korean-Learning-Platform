@@ -21,7 +21,7 @@ public class UserController
     public ApiResponse<List<UsersDTO>> getAllUsers() { return userService.getAllUsers(); }
 
     @GetMapping("/users/{userId}")
-    public ApiResponse<UserDTO> getUserByUserId(@PathVariable Long userId)
+    public ApiResponse<UserDTO> getVideoByVideoId(@PathVariable("userId") Long userId)
     {
         return userService.getUserByUserId(userId);
     }
