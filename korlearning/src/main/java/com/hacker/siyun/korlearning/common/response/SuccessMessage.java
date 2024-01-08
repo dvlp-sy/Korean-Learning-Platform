@@ -12,6 +12,7 @@ import static org.springframework.http.HttpStatus.OK;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum SuccessMessage
 {
+    GET_INDIVIDUAL_USER_SUCCESS(OK, "개별 유저 조회에 성공했습니다"),
     GET_TRANSCRIPTS_SUCCESS(OK, "자막 반환에 성공했습니다"),
 
     ;

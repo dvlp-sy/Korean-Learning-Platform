@@ -13,6 +13,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum ErrorMessage
 {
+    USER_NOT_FOUND(NOT_FOUND, "유저가 존재하지 않습니다"),
     TRANSCRIPT_NOT_FOUND(NOT_FOUND, "자막이 존재하지 않습니다")
 
     ;
