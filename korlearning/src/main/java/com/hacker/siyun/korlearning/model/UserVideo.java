@@ -2,14 +2,13 @@ package com.hacker.siyun.korlearning.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
 
 @Getter
-@Setter
 @Table
 @Entity
 public class UserVideo
@@ -35,4 +34,13 @@ public class UserVideo
     @JoinColumn(name = "video_id", nullable = false)
     @JsonBackReference
     private Video video;
+
+    @Builder
+    public UserVideo(Date createdAt, Date updatedAt, User user, Video video)
+    {
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.user = user;
+        this.video = video;
+    }
 }

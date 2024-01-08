@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -42,7 +43,7 @@ public class User
     @Column
     private String profileImageUrl;
 
-    @Column
+    @Column(length = 1500)
     private String introduction;
 
     @Column

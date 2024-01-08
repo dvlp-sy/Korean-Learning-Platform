@@ -3,14 +3,13 @@ package com.hacker.siyun.korlearning.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Getter
-@Setter
 @Table
 @Entity
 public class Transcript
@@ -44,5 +43,15 @@ public class Transcript
     @JoinColumn(name = "video_id", nullable = false)
     @JsonBackReference
     private Video video;
+
+    @Builder
+    public Transcript(String sentence, Double start, Double duration, String soundLink, Video video)
+    {
+        this.sentence = sentence;
+        this.start = start;
+        this.duration = duration;
+        this.soundLink = soundLink;
+        this.video = video;
+    }
 
 }
