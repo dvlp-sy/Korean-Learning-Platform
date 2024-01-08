@@ -22,6 +22,7 @@ public enum ErrorMessage
      * Video
      */
     CATEGORY_NOT_FOUND(NOT_FOUND, "카테고리가 존재하지 않습니다"),
+    VIDEO_NOT_FOUND(NOT_FOUND, "비디오가 존재하지 않습니다"),
 
 
     /**
