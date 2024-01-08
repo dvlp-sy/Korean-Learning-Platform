@@ -9,13 +9,8 @@ import com.hacker.siyun.korlearning.dto.UsersDTO;
 import com.hacker.siyun.korlearning.model.User;
 import com.hacker.siyun.korlearning.repository.UserRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.stream.Collector;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService
