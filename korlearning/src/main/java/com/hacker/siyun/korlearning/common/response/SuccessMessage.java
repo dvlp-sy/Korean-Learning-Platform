@@ -21,6 +21,7 @@ public enum SuccessMessage
     /**
      * Video
      */
+    UPLOAD_VIDEO_SUCCESS(OK, "비디오 업로드에 성공했습니다"),
 
     /**
      * Transcript
