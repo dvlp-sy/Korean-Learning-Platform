@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
@@ -59,6 +60,9 @@ public class Video
     @JsonManagedReference
     private Set<UserVideo> userVideos = new HashSet<>();
 
+    @Autowired
+    public Video() { }
+    @Autowired
     @Builder
     public Video(String link, String videoTitle, String creator, Long duration, Boolean isDefault, Long views, Date createdAt, Long youtubeViews)
     {

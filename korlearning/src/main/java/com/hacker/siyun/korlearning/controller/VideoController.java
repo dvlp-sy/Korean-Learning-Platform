@@ -4,10 +4,9 @@ import com.hacker.siyun.korlearning.common.ApiResponse;
 import com.hacker.siyun.korlearning.dto.UserRequestDTO;
 import com.hacker.siyun.korlearning.dto.VideoSummaryDTO;
 import com.hacker.siyun.korlearning.service.VideoService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class VideoController
@@ -20,5 +19,11 @@ public class VideoController
     public ApiResponse<VideoSummaryDTO> uploadVideo(@RequestParam(name = "link") String link, @RequestBody UserRequestDTO userRequestDTO) throws Exception
     {
         return videoService.uploadVideo(link, userRequestDTO);
+    }
+
+    @GetMapping("/videos")
+    public ApiResponse<List<VideoSummaryDTO>> getAllVideos()
+    {
+        return videoService.getAllVideos();
     }
 }

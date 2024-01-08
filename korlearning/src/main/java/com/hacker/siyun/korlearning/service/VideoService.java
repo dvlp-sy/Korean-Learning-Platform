@@ -48,6 +48,10 @@ public class VideoService
         this.webClient = WebClient.builder().exchangeStrategies(strategies).build();
     }
 
+    /**
+     * POST API
+     */
+
     public ApiResponse<VideoSummaryDTO> uploadVideo(String link, UserRequestDTO userRequestDTO) throws Exception
     {
         Map youtubeData;
@@ -159,5 +163,16 @@ public class VideoService
 
     }
 
+    /**
+     * GET API
+     */
+
+    public ApiResponse<List<VideoSummaryDTO>> getAllVideos()
+    {
+        List<VideoSummaryDTO> videoSummaryDTOList = videoRepository.findAll().stream()
+                .map(VideoSummaryDTO::build)
+                .toList();
+        return ApiResponse.success(SuccessMessage.GET_ALL_VIDEOS_SUCCESS, videoSummaryDTOList);
+    }
 
 }
