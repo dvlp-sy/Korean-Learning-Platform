@@ -13,7 +13,7 @@ public class CategoryVideo
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "categoryvideo_id")
+    @Column(name = "category_video_id")
     private Long categoryVideoId;
 
     @ManyToOne
