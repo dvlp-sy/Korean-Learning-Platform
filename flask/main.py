@@ -2,13 +2,14 @@ from flask import Flask, jsonify
 from youtube_transcript_api import YouTubeTranscriptApi
 import requests
 import re
+import apikey
 
 app = Flask(__name__)
 
 @app.route("/getYoutubeData/<video_id>", methods=["GET"])
 def get_transcripts(video_id):
     
-    GOOGLE_API_KEY ="key"
+    GOOGLE_API_KEY = apikey.GOOGLE_API_KEY
     url = f"https://www.googleapis.com/youtube/v3/videos?id={video_id}&key={GOOGLE_API_KEY}&part=snippet,contentDetails,statistics,status"
     response = requests.get(url)
     video_data = response.json()
