@@ -38,8 +38,14 @@ public class VideoController
         return videoService.getVideosByUserId(userId);
     }
 
+    @GetMapping("/videos/rank")
+    public ApiResponse<List<VideoViewDTO>> getVideosSortedByRank()
+    {
+        return videoService.getVideosSortedByRank();
+    }
+
     @PatchMapping("/videos/{videoId}")
-    public ApiResponse<VideoViewPatchDTO> patchViewByVideoId(@PathVariable("videoId") Long videoId)
+    public ApiResponse<VideoViewDTO> patchViewByVideoId(@PathVariable("videoId") Long videoId)
     {
         return videoService.patchViewByVideoId(videoId);
     }
