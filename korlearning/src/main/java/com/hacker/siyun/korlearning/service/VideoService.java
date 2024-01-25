@@ -4,20 +4,17 @@ import com.hacker.siyun.korlearning.common.ApiResponse;
 import com.hacker.siyun.korlearning.common.exception.NotFoundException;
 import com.hacker.siyun.korlearning.common.response.ErrorMessage;
 import com.hacker.siyun.korlearning.common.response.SuccessMessage;
-import com.hacker.siyun.korlearning.dto.UserRequestDTO;
-import com.hacker.siyun.korlearning.dto.VideoDTO;
-import com.hacker.siyun.korlearning.dto.VideoSummaryDTO;
-import com.hacker.siyun.korlearning.dto.VideoViewPatchDTO;
+import com.hacker.siyun.korlearning.dto.*;
 import com.hacker.siyun.korlearning.model.*;
 import com.hacker.siyun.korlearning.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class VideoService
@@ -185,11 +182,35 @@ public class VideoService
         return ApiResponse.success(SuccessMessage.GET_VIDEO_SUCCESS, VideoDTO.build(video));
     }
 
+    public ApiResponse<VideosByUserDTO> getVideosByUserId(Long userId)
+    {
+        userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.USER_NOT_FOUND));
+
+        List<VideoSummaryDTO> videoByUserDTOList = userVideoRepository.findAllByUser_UserId(userId)
+            .stream()
+            .map(userVideo -> VideoSummaryDTO.build(userVideo.getVideo()))
+            .toList();
+
+        return ApiResponse.success(SuccessMessage.GET_VIDEO_SUCCESS, new VideosByUserDTO(userId, videoByUserDTOList));
+    }
+
+    public ApiResponse<List<VideoViewDTO>> getVideosSortedByRank()
+    {
+        List<VideoViewDTO> videoViewDTOList = videoRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Video::getViews).reversed())
+                .map(VideoViewDTO::build)
+                .toList();
+
+        return ApiResponse.success(SuccessMessage.GET_VIDEO_SUCCESS, videoViewDTOList);
+    }
+
     /**
      * PATCH API
      */
 
-    public ApiResponse<VideoViewPatchDTO> patchViewByVideoId(Long videoId)
+    public ApiResponse<VideoViewDTO> patchViewByVideoId(Long videoId)
     {
         Video video = videoRepository.findById(videoId)
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.VIDEO_NOT_FOUND));
@@ -197,7 +218,7 @@ public class VideoService
         video.setViews(video.getViews()+1L);
         videoRepository.save(video);
 
-        return ApiResponse.success(SuccessMessage.PATCH_VIDEO_SUCCESS, VideoViewPatchDTO.build(video));
+        return ApiResponse.success(SuccessMessage.PATCH_VIDEO_SUCCESS, VideoViewDTO.build(video));
     }
 
     /**
