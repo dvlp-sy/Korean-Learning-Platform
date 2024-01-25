@@ -7,6 +7,7 @@ import com.hacker.siyun.korlearning.common.response.SuccessMessage;
 import com.hacker.siyun.korlearning.dto.UserRequestDTO;
 import com.hacker.siyun.korlearning.dto.VideoDTO;
 import com.hacker.siyun.korlearning.dto.VideoSummaryDTO;
+import com.hacker.siyun.korlearning.dto.VideoViewPatchDTO;
 import com.hacker.siyun.korlearning.model.*;
 import com.hacker.siyun.korlearning.repository.*;
 import org.springframework.stereotype.Service;
@@ -181,6 +182,17 @@ public class VideoService
         Video video = videoRepository.findById(videoId)
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.VIDEO_NOT_FOUND));
         return ApiResponse.success(SuccessMessage.GET_VIDEO_SUCCESS, VideoDTO.build(video));
+    }
+
+    public ApiResponse<VideoViewPatchDTO> patchViewByVideoId(Long videoId)
+    {
+        Video video = videoRepository.findById(videoId)
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.VIDEO_NOT_FOUND));
+
+        video.setViews(video.getViews()+1L);
+        videoRepository.save(video);
+
+        return ApiResponse.success(SuccessMessage.PATCH_VIDEO_SUCCESS, VideoViewPatchDTO.build(video));
     }
 
 }
