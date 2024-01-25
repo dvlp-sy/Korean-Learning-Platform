@@ -1,6 +1,7 @@
 package com.hacker.siyun.korlearning.dto;
 
 import com.hacker.siyun.korlearning.model.Video;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -10,7 +11,7 @@ public class VideoViewPatchDTO
     private final Long videoId;
     private final Long views;
 
-    @Builder
+    @Builder(access = AccessLevel.PRIVATE)
     private VideoViewPatchDTO(Long videoId, Long views)
     {
         this.videoId = videoId;
