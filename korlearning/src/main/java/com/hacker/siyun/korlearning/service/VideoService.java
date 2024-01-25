@@ -7,6 +7,7 @@ import com.hacker.siyun.korlearning.common.response.SuccessMessage;
 import com.hacker.siyun.korlearning.dto.UserRequestDTO;
 import com.hacker.siyun.korlearning.dto.VideoDTO;
 import com.hacker.siyun.korlearning.dto.VideoSummaryDTO;
+import com.hacker.siyun.korlearning.dto.VideoViewPatchDTO;
 import com.hacker.siyun.korlearning.model.*;
 import com.hacker.siyun.korlearning.repository.*;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class VideoService
@@ -181,6 +183,44 @@ public class VideoService
         Video video = videoRepository.findById(videoId)
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.VIDEO_NOT_FOUND));
         return ApiResponse.success(SuccessMessage.GET_VIDEO_SUCCESS, VideoDTO.build(video));
+    }
+
+    /**
+     * PATCH API
+     */
+
+    public ApiResponse<VideoViewPatchDTO> patchViewByVideoId(Long videoId)
+    {
+        Video video = videoRepository.findById(videoId)
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.VIDEO_NOT_FOUND));
+
+        video.setViews(video.getViews()+1L);
+        videoRepository.save(video);
+
+        return ApiResponse.success(SuccessMessage.PATCH_VIDEO_SUCCESS, VideoViewPatchDTO.build(video));
+    }
+
+    /**
+     * DELETE API
+     */
+
+    public ApiResponse<VideoSummaryDTO> deleteVideoByVideoId(Long videoId)
+    {
+        Video video = videoRepository.findById(videoId)
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.VIDEO_NOT_FOUND));
+
+        for (Transcript transcript : video.getTranscripts())
+            transcriptRepository.deleteById(transcript.getTranscriptId());
+
+        for (CategoryVideo categoryVideo : video.getCategoryVideos())
+            categoryVideoRepository.deleteById(categoryVideo.getCategoryVideoId());
+
+        for (UserVideo userVideo : video.getUserVideos())
+            userVideoRepository.deleteById(userVideo.getUserVideoId());
+
+        videoRepository.deleteById(videoId);
+
+        return ApiResponse.success(SuccessMessage.DELETE_VIDEO_SUCCESS);
     }
 
 }

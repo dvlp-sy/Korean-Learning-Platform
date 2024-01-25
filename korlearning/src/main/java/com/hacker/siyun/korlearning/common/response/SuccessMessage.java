@@ -5,8 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.*;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -24,6 +23,8 @@ public enum SuccessMessage
     UPLOAD_VIDEO_SUCCESS(OK, "비디오 업로드에 성공했습니다"),
     GET_ALL_VIDEOS_SUCCESS(OK, "전체 비디오 조회에 성공했습니다"),
     GET_VIDEO_SUCCESS(OK, "비디오 조회에 성공했습니다"),
+    PATCH_VIDEO_SUCCESS(OK, "비디오 정보 업데이트에 성공했습니다"),
+    DELETE_VIDEO_SUCCESS(NO_CONTENT, "비디오 삭제에 성공했습니다"),
 
     /**
      * Transcript
