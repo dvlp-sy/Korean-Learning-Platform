@@ -17,6 +17,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class VideoService
@@ -184,6 +185,10 @@ public class VideoService
         return ApiResponse.success(SuccessMessage.GET_VIDEO_SUCCESS, VideoDTO.build(video));
     }
 
+    /**
+     * PATCH API
+     */
+
     public ApiResponse<VideoViewPatchDTO> patchViewByVideoId(Long videoId)
     {
         Video video = videoRepository.findById(videoId)
@@ -193,6 +198,29 @@ public class VideoService
         videoRepository.save(video);
 
         return ApiResponse.success(SuccessMessage.PATCH_VIDEO_SUCCESS, VideoViewPatchDTO.build(video));
+    }
+
+    /**
+     * DELETE API
+     */
+
+    public ApiResponse<VideoSummaryDTO> deleteVideoByVideoId(Long videoId)
+    {
+        Video video = videoRepository.findById(videoId)
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.VIDEO_NOT_FOUND));
+
+        for (Transcript transcript : video.getTranscripts())
+            transcriptRepository.deleteById(transcript.getTranscriptId());
+
+        for (CategoryVideo categoryVideo : video.getCategoryVideos())
+            categoryVideoRepository.deleteById(categoryVideo.getCategoryVideoId());
+
+        for (UserVideo userVideo : video.getUserVideos())
+            userVideoRepository.deleteById(userVideo.getUserVideoId());
+
+        videoRepository.deleteById(videoId);
+
+        return ApiResponse.success(SuccessMessage.DELETE_VIDEO_SUCCESS);
     }
 
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
@@ -35,6 +36,10 @@ public class UserVideo
     @JsonBackReference
     private Video video;
 
+    @Autowired
+    public UserVideo() {}
+
+    @Autowired
     @Builder
     public UserVideo(Date createdAt, Date updatedAt, User user, Video video)
     {

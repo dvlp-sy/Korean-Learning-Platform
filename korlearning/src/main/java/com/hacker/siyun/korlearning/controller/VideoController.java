@@ -40,4 +40,10 @@ public class VideoController
     {
         return videoService.patchViewByVideoId(videoId);
     }
+
+    @DeleteMapping("/videos/{videoId}")
+    public ApiResponse<VideoSummaryDTO> deleteVideoByVideoId(@PathVariable("videoId") Long videoId)
+    {
+        return videoService.deleteVideoByVideoId(videoId);
+    }
 }

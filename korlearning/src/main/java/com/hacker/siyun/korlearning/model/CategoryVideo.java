@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Getter
 @Table
@@ -12,7 +13,7 @@ public class CategoryVideo
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_video_id")
+    @Column(name = "categoryvideo_id")
     private Long categoryVideoId;
 
     @ManyToOne
@@ -25,6 +26,10 @@ public class CategoryVideo
     @JsonBackReference
     private Video video;
 
+    @Autowired
+    public CategoryVideo() {}
+
+    @Autowired
     @Builder
     public CategoryVideo(Category category, Video video)
     {

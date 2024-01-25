@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -44,6 +45,10 @@ public class Transcript
     @JsonBackReference
     private Video video;
 
+    @Autowired
+    public Transcript() {}
+
+    @Autowired
     @Builder
     public Transcript(String sentence, Double start, Double duration, String soundLink, Video video)
     {
