@@ -4,10 +4,7 @@ import com.hacker.siyun.korlearning.common.ApiResponse;
 import com.hacker.siyun.korlearning.common.exception.NotFoundException;
 import com.hacker.siyun.korlearning.common.response.ErrorMessage;
 import com.hacker.siyun.korlearning.common.response.SuccessMessage;
-import com.hacker.siyun.korlearning.dto.UserRequestDTO;
-import com.hacker.siyun.korlearning.dto.VideoDTO;
-import com.hacker.siyun.korlearning.dto.VideoSummaryDTO;
-import com.hacker.siyun.korlearning.dto.VideoViewPatchDTO;
+import com.hacker.siyun.korlearning.dto.*;
 import com.hacker.siyun.korlearning.model.*;
 import com.hacker.siyun.korlearning.repository.*;
 import org.springframework.stereotype.Service;
@@ -183,6 +180,19 @@ public class VideoService
         Video video = videoRepository.findById(videoId)
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.VIDEO_NOT_FOUND));
         return ApiResponse.success(SuccessMessage.GET_VIDEO_SUCCESS, VideoDTO.build(video));
+    }
+
+    public ApiResponse<VideosByUserDTO> getVideosByUserId(Long userId)
+    {
+        userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.USER_NOT_FOUND));
+
+        List<VideoSummaryDTO> videoByUserDTOList = userVideoRepository.findAllByUser_UserId(userId)
+            .stream()
+            .map(userVideo -> VideoSummaryDTO.build(userVideo.getVideo()))
+            .toList();
+
+        return ApiResponse.success(SuccessMessage.GET_VIDEO_SUCCESS, new VideosByUserDTO(userId, videoByUserDTOList));
     }
 
     /**
