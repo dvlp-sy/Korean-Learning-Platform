@@ -206,6 +206,26 @@ public class VideoService
         return ApiResponse.success(SuccessMessage.GET_VIDEO_SUCCESS, videoViewDTOList);
     }
 
+    public ApiResponse<List<CategoryVideoDTO>> getCategoryVideos(List<Long> categoryIds)
+    {
+        List<CategoryVideoDTO> categoryVideoDTOList = categoryIds
+                .stream()
+                .filter(categoryId -> categoryId < 45)
+                .map(categoryId -> {
+                    List<VideoSummaryDTO> videoSummaryDTOList = categoryVideoRepository.findAllByCategory_CategoryId(categoryId)
+                            .stream()
+                            .map(categoryVideo -> VideoSummaryDTO.build(categoryVideo.getVideo()))
+                            .toList();
+                    return new CategoryVideoDTO(categoryId, videoSummaryDTOList);
+                })
+                .toList();
+
+        if (categoryVideoDTOList.isEmpty())
+            throw new NotFoundException(ErrorMessage.CATEGORY_NOT_FOUND);
+
+        return ApiResponse.success(SuccessMessage.GET_VIDEO_SUCCESS, categoryVideoDTOList);
+    }
+
     /**
      * PATCH API
      */
