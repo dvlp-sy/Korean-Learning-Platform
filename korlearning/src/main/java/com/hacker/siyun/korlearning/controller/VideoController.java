@@ -44,6 +44,12 @@ public class VideoController
         return videoService.getVideosSortedByRank();
     }
 
+    @GetMapping("/videos/categories")
+    public ApiResponse<List<CategoryVideoDTO>> getCategoryVideos(@RequestParam("categoryId") List<Long> categoryIds)
+    {
+        return videoService.getCategoryVideos(categoryIds);
+    }
+
     @PatchMapping("/videos/{videoId}")
     public ApiResponse<VideoViewDTO> patchViewByVideoId(@PathVariable("videoId") Long videoId)
     {
