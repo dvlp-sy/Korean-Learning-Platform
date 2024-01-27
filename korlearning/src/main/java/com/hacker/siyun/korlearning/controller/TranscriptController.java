@@ -1,7 +1,8 @@
 package com.hacker.siyun.korlearning.controller;
 
 import com.hacker.siyun.korlearning.common.ApiResponse;
-import com.hacker.siyun.korlearning.dto.TranscriptsDTO;
+import com.hacker.siyun.korlearning.dto.transcript.TranscriptsDTO;
+import com.hacker.siyun.korlearning.dto.transcript.VideoTranscriptDTO;
 import com.hacker.siyun.korlearning.model.Transcript;
 import com.hacker.siyun.korlearning.service.TranscriptService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,5 +20,11 @@ public class TranscriptController
     public ApiResponse<TranscriptsDTO> getAllTranscripts(@PathVariable("videoId") Long videoId)
     {
         return transcriptService.getAllTranscripts(videoId);
+    }
+
+    @GetMapping("/videos/{videoId}/transcripts/{transcriptId}")
+    public ApiResponse<VideoTranscriptDTO> getTranscript(@PathVariable("videoId") Long videoId, @PathVariable("transcriptId") Long transcriptId)
+    {
+        return transcriptService.getTranscript(videoId, transcriptId);
     }
 }
