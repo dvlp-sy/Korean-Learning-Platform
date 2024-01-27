@@ -1,8 +1,8 @@
 package com.hacker.siyun.korlearning.controller;
 
 import com.hacker.siyun.korlearning.common.ApiResponse;
-import com.hacker.siyun.korlearning.dto.UserDTO;
-import com.hacker.siyun.korlearning.dto.UsersDTO;
+import com.hacker.siyun.korlearning.dto.user.UserDTO;
+import com.hacker.siyun.korlearning.dto.user.UsersDTO;
 import com.hacker.siyun.korlearning.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,4 +1,4 @@
-package com.hacker.siyun.korlearning.dto;
+package com.hacker.siyun.korlearning.dto.transcript;
 
 import com.hacker.siyun.korlearning.model.Transcript;
 import lombok.AccessLevel;

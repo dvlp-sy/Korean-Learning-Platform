@@ -1,7 +1,8 @@
 package com.hacker.siyun.korlearning.controller;
 
 import com.hacker.siyun.korlearning.common.ApiResponse;
-import com.hacker.siyun.korlearning.dto.*;
+import com.hacker.siyun.korlearning.dto.user.UserRequestDTO;
+import com.hacker.siyun.korlearning.dto.video.*;
 import com.hacker.siyun.korlearning.service.VideoService;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,5 +1,6 @@
-package com.hacker.siyun.korlearning.dto;
+package com.hacker.siyun.korlearning.dto.video;
 
+import com.hacker.siyun.korlearning.dto.video.VideoSummaryDTO;
 import lombok.Getter;
 
 import java.util.List;
