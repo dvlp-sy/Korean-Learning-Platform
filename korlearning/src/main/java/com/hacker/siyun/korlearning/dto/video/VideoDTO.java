@@ -1,4 +1,4 @@
-package com.hacker.siyun.korlearning.dto;
+package com.hacker.siyun.korlearning.dto.video;
 
 import com.hacker.siyun.korlearning.model.Video;
 import lombok.AccessLevel;

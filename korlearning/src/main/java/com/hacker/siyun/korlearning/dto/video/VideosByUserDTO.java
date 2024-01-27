@@ -1,4 +1,4 @@
-package com.hacker.siyun.korlearning.dto;
+package com.hacker.siyun.korlearning.dto.video;
 
 import lombok.Getter;
 

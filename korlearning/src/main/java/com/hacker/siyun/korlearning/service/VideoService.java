@@ -4,7 +4,8 @@ import com.hacker.siyun.korlearning.common.ApiResponse;
 import com.hacker.siyun.korlearning.common.exception.NotFoundException;
 import com.hacker.siyun.korlearning.common.response.ErrorMessage;
 import com.hacker.siyun.korlearning.common.response.SuccessMessage;
-import com.hacker.siyun.korlearning.dto.*;
+import com.hacker.siyun.korlearning.dto.user.UserRequestDTO;
+import com.hacker.siyun.korlearning.dto.video.*;
 import com.hacker.siyun.korlearning.model.*;
 import com.hacker.siyun.korlearning.repository.*;
 import org.springframework.stereotype.Service;
@@ -204,6 +205,26 @@ public class VideoService
                 .toList();
 
         return ApiResponse.success(SuccessMessage.GET_VIDEO_SUCCESS, videoViewDTOList);
+    }
+
+    public ApiResponse<List<CategoryVideoDTO>> getCategoryVideos(List<Long> categoryIds)
+    {
+        List<CategoryVideoDTO> categoryVideoDTOList = categoryIds
+                .stream()
+                .filter(categoryId -> categoryId < 45)
+                .map(categoryId -> {
+                    List<VideoSummaryDTO> videoSummaryDTOList = categoryVideoRepository.findAllByCategory_CategoryId(categoryId)
+                            .stream()
+                            .map(categoryVideo -> VideoSummaryDTO.build(categoryVideo.getVideo()))
+                            .toList();
+                    return new CategoryVideoDTO(categoryId, videoSummaryDTOList);
+                })
+                .toList();
+
+        if (categoryVideoDTOList.isEmpty())
+            throw new NotFoundException(ErrorMessage.CATEGORY_NOT_FOUND);
+
+        return ApiResponse.success(SuccessMessage.GET_VIDEO_SUCCESS, categoryVideoDTOList);
     }
 
     /**
