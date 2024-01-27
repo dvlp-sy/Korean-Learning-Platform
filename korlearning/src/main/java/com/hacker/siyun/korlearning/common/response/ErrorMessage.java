@@ -28,7 +28,8 @@ public enum ErrorMessage
     /**
      * Transcript
      */
-    TRANSCRIPT_NOT_FOUND(NOT_FOUND, "자막이 존재하지 않습니다")
+    TRANSCRIPT_NOT_FOUND(NOT_FOUND, "자막이 존재하지 않습니다"),
+    VIDEO_TRANSCRIPT_NOT_FOUND(NOT_FOUND, "해당 비디오에 해당 자막이 존재하지 않습니다"),
 
     /**
      * Evaluation

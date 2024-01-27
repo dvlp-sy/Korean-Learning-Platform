@@ -29,7 +29,8 @@ public enum SuccessMessage
     /**
      * Transcript
      */
-    GET_TRANSCRIPTS_SUCCESS(OK, "자막 반환에 성공했습니다"),
+    GET_ALL_TRANSCRIPTS_SUCCESS(OK, "전체 자막 반환에 성공했습니다"),
+    GET_TRANSCRIPT_SUCCESS(OK, "개별 자막 반환에 성공했습니다")
 
     /**
      * Evaluation
