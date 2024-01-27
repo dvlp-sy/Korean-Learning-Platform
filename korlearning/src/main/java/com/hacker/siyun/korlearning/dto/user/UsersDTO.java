@@ -1,4 +1,4 @@
-package com.hacker.siyun.korlearning.dto;
+package com.hacker.siyun.korlearning.dto.user;
 
 import com.hacker.siyun.korlearning.model.User;
 import lombok.AccessLevel;
