@@ -1,5 +1,7 @@
 package com.hacker.siyun.korlearning.service;
 
+import com.deepl.api.DeepLException;
+import com.deepl.api.Translator;
 import com.hacker.siyun.korlearning.common.ApiResponse;
 import com.hacker.siyun.korlearning.common.exception.NotFoundException;
 import com.hacker.siyun.korlearning.common.response.ErrorMessage;
@@ -10,11 +12,9 @@ import com.hacker.siyun.korlearning.dto.transcript.TranslationDTO;
 import com.hacker.siyun.korlearning.dto.transcript.VideoTranscriptDTO;
 import com.hacker.siyun.korlearning.model.Country;
 import com.hacker.siyun.korlearning.model.Transcript;
-import com.hacker.siyun.korlearning.model.Translation;
 import com.hacker.siyun.korlearning.repository.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import com.deepl.api.*;
 
 import java.util.List;
 
@@ -96,14 +96,7 @@ public class TranscriptService
         translator = new Translator(authKey);
         String text = translator.translateText(transcript.getSentence(), null, country.getCountryCode()).getText();
 
-        /* BUILD TRANSLATION */
-        Translation translation = Translation.builder()
-                .text(text)
-                .transcript(transcript)
-                .country(country)
-                .build();
-
-        return ApiResponse.success(SuccessMessage.GET_TRANSLATION_SUCCESS, TranslationDTO.build(translation));
+        return ApiResponse.success(SuccessMessage.GET_TRANSLATION_SUCCESS, new TranslationDTO(country.getCountryName(), transcript.getSentence(), text));
     }
 
 
