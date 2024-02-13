@@ -1,14 +1,19 @@
 package com.hacker.siyun.korlearning.service;
 
+import com.deepl.api.DeepLException;
+import com.deepl.api.Translator;
 import com.hacker.siyun.korlearning.common.ApiResponse;
 import com.hacker.siyun.korlearning.common.exception.NotFoundException;
 import com.hacker.siyun.korlearning.common.response.ErrorMessage;
 import com.hacker.siyun.korlearning.common.response.SuccessMessage;
 import com.hacker.siyun.korlearning.dto.transcript.TranscriptDTO;
 import com.hacker.siyun.korlearning.dto.transcript.TranscriptsDTO;
+import com.hacker.siyun.korlearning.dto.transcript.TranslationDTO;
 import com.hacker.siyun.korlearning.dto.transcript.VideoTranscriptDTO;
+import com.hacker.siyun.korlearning.model.Country;
 import com.hacker.siyun.korlearning.model.Transcript;
 import com.hacker.siyun.korlearning.repository.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,8 +25,10 @@ public class TranscriptService
     private final CountryRepository countryRepository;
     private final TranscriptRepository transcriptRepository;
     private final TranslationRepository translationRepository;
-    private final WordRepository wordRepository;
-    private final ExampleRepository exampleRepository;
+
+    @Value("${spring.deepl.key}")
+    private String authKey;
+
 
     public TranscriptService(
             VideoRepository videoRepository,
@@ -36,8 +43,6 @@ public class TranscriptService
         this.countryRepository = countryRepository;
         this.transcriptRepository = transcriptRepository;
         this.translationRepository = translationRepository;
-        this.wordRepository = wordRepository;
-        this.exampleRepository = exampleRepository;
     }
 
     public ApiResponse<TranscriptsDTO> getAllTranscripts(Long videoId)
@@ -69,4 +74,30 @@ public class TranscriptService
 
         return ApiResponse.success(SuccessMessage.GET_TRANSCRIPT_SUCCESS, VideoTranscriptDTO.build(transcript));
     }
+
+    public ApiResponse<TranslationDTO> getTranslationByCountryId(Long videoId, Long transcriptId, Long countryId) throws DeepLException, InterruptedException {
+
+        /* Exception */
+        videoRepository.findById(videoId)
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.VIDEO_NOT_FOUND));
+
+        Transcript transcript = transcriptRepository.findById(transcriptId)
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.TRANSCRIPT_NOT_FOUND));
+
+        if (!videoId.equals(transcript.getVideo().getVideoId()))
+            throw new NotFoundException(ErrorMessage.VIDEO_TRANSCRIPT_NOT_FOUND);
+
+        Country country = countryRepository.findById(countryId)
+                .orElseThrow(() -> new NotFoundException(ErrorMessage.COUNTRY_NOT_FOUND));
+
+        /* GET TEXT USING DEEPL */
+        Translator translator;
+        String authKey = this.authKey;
+        translator = new Translator(authKey);
+        String text = translator.translateText(transcript.getSentence(), null, country.getCountryCode()).getText();
+
+        return ApiResponse.success(SuccessMessage.GET_TRANSLATION_SUCCESS, new TranslationDTO(country.getCountryName(), transcript.getSentence(), text));
+    }
+
+
 }

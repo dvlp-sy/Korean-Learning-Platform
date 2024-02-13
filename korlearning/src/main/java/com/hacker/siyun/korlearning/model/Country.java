@@ -23,7 +23,7 @@ public class Country
     private String countryName;
 
     @Column(unique = true)
-    private Long countryCode;
+    private String countryCode;
 
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
