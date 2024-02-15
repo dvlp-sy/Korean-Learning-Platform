@@ -6,9 +6,7 @@ import com.hacker.siyun.korlearning.dto.transcript.TranscriptsDTO;
 import com.hacker.siyun.korlearning.dto.transcript.TranslationDTO;
 import com.hacker.siyun.korlearning.dto.transcript.VideoTranscriptDTO;
 import com.hacker.siyun.korlearning.service.TranscriptService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class TranscriptController

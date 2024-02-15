@@ -12,11 +12,13 @@ import com.hacker.siyun.korlearning.dto.transcript.TranslationDTO;
 import com.hacker.siyun.korlearning.dto.transcript.VideoTranscriptDTO;
 import com.hacker.siyun.korlearning.model.Country;
 import com.hacker.siyun.korlearning.model.Transcript;
+import com.hacker.siyun.korlearning.model.Translation;
 import com.hacker.siyun.korlearning.repository.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TranscriptService
@@ -75,9 +77,17 @@ public class TranscriptService
         return ApiResponse.success(SuccessMessage.GET_TRANSCRIPT_SUCCESS, VideoTranscriptDTO.build(transcript));
     }
 
-    public ApiResponse<TranslationDTO> getTranslationByCountryId(Long videoId, Long transcriptId, Long countryId) throws DeepLException, InterruptedException {
+    public ApiResponse<TranslationDTO> getTranslationByCountryId(Long videoId, Long transcriptId, Long countryId) throws DeepLException, InterruptedException
+    {
+        /* IF TRANSLATION ALREADY EXISTS */
+        Optional<Translation> optionalTranslation =  translationRepository.findByTranscript_TranscriptId(transcriptId);
+        if (optionalTranslation.isPresent())
+        {
+            Translation translation = optionalTranslation.get();
+            return ApiResponse.success(SuccessMessage.GET_TRANSLATION_SUCCESS, new TranslationDTO(translation.getCountry().getCountryName(), translation.getTranscript().getSentence(), translation.getText()));
+        }
 
-        /* Exception */
+        /* EXCEPTION */
         videoRepository.findById(videoId)
                 .orElseThrow(() -> new NotFoundException(ErrorMessage.VIDEO_NOT_FOUND));
 
@@ -96,8 +106,21 @@ public class TranscriptService
         translator = new Translator(authKey);
         String text = translator.translateText(transcript.getSentence(), null, country.getCountryCode()).getText();
 
+        /* SAVE TRANSLATION */
+        saveTranslation(transcript, country, text);
+
         return ApiResponse.success(SuccessMessage.GET_TRANSLATION_SUCCESS, new TranslationDTO(country.getCountryName(), transcript.getSentence(), text));
     }
 
+    public void saveTranslation(Transcript transcript, Country country, String text)
+    {
+        Translation translation = Translation.builder()
+                .transcript(transcript)
+                .country(country)
+                .text(text)
+                .build();
+
+        translationRepository.save(translation);
+    }
 
 }
