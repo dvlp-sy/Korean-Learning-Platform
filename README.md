@@ -1,6 +1,6 @@
 # Korean-Learning-Platform
 유튜브 동영상을 통한 한국어 학습 플랫폼 개발   
-(본 프로젝트는 경희대학교 학술동아리 Hacker에서 진행된 스터디의 일환입니다)    
+(본 프로젝트는 경희대학교 학술동아리 Hacker에서 진행된 스터디 내용을 디벨롭한 개인 프로젝트입니다.)    
 ㅤ    
 📚 **스터디 자료** : https://www.notion.so/backend-study-siyun/HOME-b63c026bff6e473984bedbc2a89f07bd
 ㅤ    
