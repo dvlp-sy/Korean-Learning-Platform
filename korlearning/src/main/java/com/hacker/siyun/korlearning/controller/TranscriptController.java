@@ -1,9 +1,10 @@
 package com.hacker.siyun.korlearning.controller;
 
+import com.deepl.api.DeepLException;
 import com.hacker.siyun.korlearning.common.ApiResponse;
 import com.hacker.siyun.korlearning.dto.transcript.TranscriptsDTO;
+import com.hacker.siyun.korlearning.dto.transcript.TranslationDTO;
 import com.hacker.siyun.korlearning.dto.transcript.VideoTranscriptDTO;
-import com.hacker.siyun.korlearning.model.Transcript;
 import com.hacker.siyun.korlearning.service.TranscriptService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,5 +27,10 @@ public class TranscriptController
     public ApiResponse<VideoTranscriptDTO> getTranscript(@PathVariable("videoId") Long videoId, @PathVariable("transcriptId") Long transcriptId)
     {
         return transcriptService.getTranscript(videoId, transcriptId);
+    }
+
+    @GetMapping("/videos/{videoId}/transcripts/{transcriptId}/countries/{countryId}/translation")
+    public ApiResponse<TranslationDTO> getTranslationByCountryId(@PathVariable("videoId") Long videoId, @PathVariable("transcriptId") Long transcriptId, @PathVariable("countryId") Long countryId) throws DeepLException, InterruptedException {
+        return transcriptService.getTranslationByCountryId(videoId, transcriptId, countryId);
     }
 }

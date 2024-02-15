@@ -36,6 +36,9 @@ dependencies {
 	implementation 'org.webjars:sockjs-client:1.0.2'
 	implementation 'org.webjars:stomp-websocket:2.3.3'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	//deepL
+	//https://mvnrepository.com/artifact/com.deepl.api/deepl-java
+	implementation group: 'com.deepl.api', name: 'deepl-java', version: '1.4.0'
 }
 
 tasks.named('test') {
