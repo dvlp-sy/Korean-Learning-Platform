@@ -32,6 +32,7 @@ public enum SuccessMessage
     GET_ALL_TRANSCRIPTS_SUCCESS(OK, "전체 자막 반환에 성공했습니다"),
     GET_TRANSCRIPT_SUCCESS(OK, "개별 자막 반환에 성공했습니다"),
     GET_TRANSLATION_SUCCESS(OK, "개별 자막 번역에 성공했습니다"),
+    GET_WORD_SUCCESS(OK, "단어와 예문 불러오기에 성공했습니다"),
 
     /**
      * Evaluation
