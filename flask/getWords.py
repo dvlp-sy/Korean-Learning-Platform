@@ -14,6 +14,7 @@ headers = {
 @Words.route("/getWords/<sentence>")
 class getWords(Resource) :
     def get(self, sentence) :
+        wordsData = []
         url = f"https://ko.dict.naver.com/api3/koko/search?query={sentence}"
         response = requests.get(url, headers = headers)
 
@@ -35,15 +36,17 @@ class getWords(Resource) :
             
             for example in examples :
                 parsed_example = re.sub('<[^<]+?>', '', example["expExample1"])
-                examplesData.append(
-                    {
-                        "sentence" : parsed_example
-                    }
-                )
+                examplesData.append(parsed_example)
+
+            wordsData.append(
+                {
+                    "word" : parsed_word,
+                    "examples" : examplesData
+                }
+            )
         
         return jsonify(
             {
-                "word" : parsed_word,
-                "examples" : examplesData
+                "wordsData" : wordsData
             }
         )
